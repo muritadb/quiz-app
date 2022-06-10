@@ -1,14 +1,13 @@
 const form = document.querySelector('.quiz-form')
 const userScore = document.querySelector('.userScore')
 
-let correctAnswers = ['B', 'B', 'B', 'B']
+let correctAnswers = ['A', 'D', 'C', 'B']
+let scoreCurrent = 0
+let score = 0
 
-
-form.addEventListener('submit', event => {
+const handleSubmit = event => {
   event.preventDefault()
 
-
-  let score = 0
   const userAnswers = [
     form.inputQuestion1.value,
     form.inputQuestion2.value,
@@ -18,9 +17,23 @@ form.addEventListener('submit', event => {
   userAnswers.forEach((userAnswer, index) => {
     if (userAnswer === correctAnswers[index]) {
       score += 25
-
     }
   })
-  userScore.textContent = `${score}`
-})
+
+
+  setTimeout(() => {
+    scrollTo(0, 0)
+  }, 1000)
+
+  const scorecurrent = setInterval(() => {
+    scoreCurrent++
+    if (scoreCurrent === score) {
+      clearInterval(scorecurrent)
+    }
+    userScore.textContent = `${scoreCurrent}%`
+
+  }, 100)
+}
+
+form.addEventListener('submit', handleSubmit)
 
