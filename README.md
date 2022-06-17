@@ -24,6 +24,6 @@ Um passo a passo de como rodar o Quizz.
 
 ### Server
 
-* Live:[Quiz App](https://verdant-lily-6a9004.netlify.app/)
+* Live: [Quiz app](https://quiz-murita.netlify.app/)
 * Release: v1
 * Development: v1
