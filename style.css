@@ -1,3 +1,5 @@
 .cover {
   max-width: 300px;
+  background-size: cover;
+
 }
