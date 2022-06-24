@@ -1,18 +1,16 @@
 const form = document.querySelector('.quiz-form')
-const pontuacao = document.querySelector('.pontuacao')
+const finalScoreContainer = document.querySelector('.final-score-container')
+const labels = document.querySelector('label')
+
+let score = 0
 
 const correctAnswers = ['C', 'B', 'B', 'D']
-let counter = 0
 
-const handleForm = event => {
-  event.preventDefault()
-  const userAnswers = [
-    form.inputQuestion1.value,
-    form.inputQuestion2.value,
-    form.inputQuestion3.value,
-    form.inputQuestion4.value
-  ]
-  let score = 0
+const getUserAnswers = () => correctAnswers.map((_, index) =>
+  form[`inputQuestion${index + 1}`].value)
+
+
+const calculateUserScore = userAnswers => {
   const checkAnswers = (userAnswer, index) => {
     const iscorrectAnswer = userAnswer === correctAnswers[index]
     if (iscorrectAnswer) {
@@ -20,22 +18,44 @@ const handleForm = event => {
     }
   }
   userAnswers.forEach(checkAnswers)
-  pontuacao.classList.remove('d-none')
+}
 
-  const setScoreIntoInterval = () => {
-    scrollTo(0, 0)
-    const setScoreIntoH2 = () => {
-      pontuacao.querySelector('span').textContent = `${counter}%`
+const showScore = () => {
+  finalScoreContainer.classList.remove('d-none')
+  scrollTo({
+    top: 0,
+    left: 0,
+    behavior: 'smooth'
+  })
+}
 
-      const totalScore = counter === score
-      if (totalScore) {
-        clearInterval(timer)
-      }
-      counter++
+const animateUserScore = () => {
+  let counter = 0
+
+  const timer = setInterval(() => {
+
+    const totalScore = counter === score
+    if (totalScore) {
+      clearInterval(timer)
     }
-    const timer = setInterval(setScoreIntoH2, 10)
-  }
-  setTimeout(setScoreIntoInterval, 1000)
+
+    finalScoreContainer.querySelector('span').textContent = `${counter++}%`
+  }, 50)
+}
+
+const resetUserSocre = () => {
+  score = 0
+}
+
+const handleForm = event => {
+  event.preventDefault()
+
+  const userAnswers = getUserAnswers()
+
+  resetUserSocre()
+  calculateUserScore(userAnswers)
+  showScore()
+  animateUserScore()
 }
 
 form.addEventListener('submit', handleForm)
